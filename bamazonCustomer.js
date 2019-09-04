@@ -20,9 +20,14 @@ function customerPurchase(){
     if (err) throw err;
     // Log all results of the SELECT statement
     console.table(res);
-    
+    connection.end(res);
+    //Inquirer to prompt for product id and quantity
+    customerSelection();
   });
+  
+}
 
+function customerSelection(){
   inquirer.prompt([{
     name: "itemID",
     type: "input",
@@ -33,7 +38,8 @@ function customerPurchase(){
       }
       return false;
     }
-  }{
+  },
+  {
     name: "quantity",
     type: "input",
     message: "Please enter the quantity of the product you wish to purchase",
