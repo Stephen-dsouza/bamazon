@@ -53,12 +53,21 @@ function customerSelection() {
     .then(function (answer) {
       var ID = answer.itemID;
       var columns = ["product_name", "stock_quantity"];
-      // connection.query("SELECT ?? FROM products where item_id=?",[columns,ID], function (err, res) {
-      connection.query("SELECT product_name,stock_quantity FROM products", function (err, res) {
+      var query = connection.query("SELECT ?? FROM products where item_id=?", [columns, ID], function (err, res) {
         if (err) throw err;
+        console.log(answer.quantity);
+        console.log(res[0].stock_quantity);
+        if (answer.quantity > res[0].stock_quantity) {
+          console.log("Insuffiecient quantity available.We currently have " + res[0].stock_quantity + " available");
 
-        console.log(query.sql);
+          // console.log("valid" +res.stock_quantity);
+        } else {
+          console.log("Invalid");
+        }
+
         connection.end(res);
+
+
       });
 
       // console.log(query.sql);
