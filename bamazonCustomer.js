@@ -14,6 +14,27 @@ connection.connect(function (err) {
   customerPurchase();
 });
 
+
+function start() {
+  inquirer.prompt([{
+    name: "action",
+    type: "list",
+    choices: ["Purchase Item", "Exit"],
+    message: "please select if you wish to purchase or exit",
+  }]);
+  .then(function(answer){
+     
+    switch (answer.action) {
+      case ("Purchase Item"):
+        customerPurchase();
+      case ("Exit"):
+        connection.end();
+    }
+
+  });
+}
+
+// display the items
 function customerPurchase() {
   connection.query("SELECT * FROM products", function (err, res) {
     if (err) throw err;
@@ -25,7 +46,7 @@ function customerPurchase() {
   });
 
 }
-
+//prompt for item and quantity and update if stock available
 function customerSelection() {
   inquirer.prompt([{
         name: "itemID",
@@ -52,7 +73,7 @@ function customerSelection() {
     ])
     .then(function (answer) {
       var ID = answer.itemID;
-      var columns = ["product_name", "stock_quantity","price"];
+      var columns = ["product_name", "stock_quantity", "price"];
       var query = connection.query("SELECT ?? FROM products where item_id=?", [columns, ID], function (err, res) {
         if (err) throw err;
         console.log(answer.quantity);
@@ -61,7 +82,7 @@ function customerSelection() {
           console.log("Insufficient quantity available.We currently have " + res[0].stock_quantity + " available");
           // console.log("valid" +res.stock_quantity);
         } else {
-          var remaningStock= res[0].stock_quantity-answer.quantity
+          var remaningStock = res[0].stock_quantity - answer.quantity
           connection.query("UPDATE products set ? where ?",
             [{
                 stock_quantity: remaningStock
@@ -80,8 +101,8 @@ function customerSelection() {
             }
           );
         }
-        
+
       });
     });
-    
+
 }
