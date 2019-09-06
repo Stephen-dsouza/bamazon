@@ -14,6 +14,8 @@ connection.connect(function (err) {
     start();
 });
 
+//###START OF FUNCTIONS###
+//This function will prompt for the list of actions
 function start() {
     inquirer.prompt([{
             name: "action",
@@ -42,7 +44,7 @@ function start() {
 
         });
 }
-
+// This function is to select all and return back to start function
 function viewAll() {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
@@ -53,9 +55,10 @@ function viewAll() {
     });
 }
 
-function viewLowStock(){
-    
-    var query=connection.query("SELECT * FROM ?? where stock_quantity<5 ",['products'] ,function (err, res) {
+
+function viewLowStock() {
+
+    var query = connection.query("SELECT * FROM ?? where stock_quantity<5 ", ['products'], function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
         console.table(res);
@@ -63,3 +66,68 @@ function viewLowStock(){
         start()
     });
 }
+function addQuantity() {
+    connection.query("SELECT * FROM products", function (err, res) {
+        if (err) throw err;
+        // Log all results of the SELECT statement
+        console.table(res);
+        addQuantityprompt();
+    });
+}
+
+function addQuantityprompt() {
+    inquirer.prompt([{
+                name: "itemID",
+                type: "input",
+                message: "\n Please enter the item ID of the product you wish to update ",
+                validate: function (value) {
+                    if (isNaN(value) === false) {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+            {
+                name: "quantity",
+                type: "input",
+                message: "\n Please enter the quantity you wish to update to the current available quantity",
+                validate: function (value) {
+                    if (isNaN(value) === false) {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        ])
+        .then(function (answer) {
+            var updatedID = answer.itemID;
+            var updatedQuantity = parseFloat(answer.quantity);
+            var updatedProduct;
+            var columns = ["product_name", "stock_quantity"];
+            var query = connection.query("SELECT ?? FROM products where item_id=?", [columns, updatedID], function (err, res) {
+                if (err) throw err;
+                updatedQuantity += res[0].stock_quantity;
+                updatedProduct = res[0].product_name;
+                console.log(query.url);
+                console.log(updatedProduct);
+                console.log(updatedQuantity);
+
+                connection.query("UPDATE products set ? where ?",
+                    [{
+                            stock_quantity: updatedQuantity
+                        },
+                        {
+                            item_id: updatedID
+                        }
+                    ],
+                    function (error) {
+                        if (error) throw error;
+                        console.log("\n Quantity updated!! \n\n The current quantity for  " + updatedProduct + " is " + updatedQuantity + "\n\n");
+                        start()
+                    }
+                );
+            });
+        });
+}
+
+
