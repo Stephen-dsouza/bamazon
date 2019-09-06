@@ -51,5 +51,15 @@ function viewAll() {
         //Inquirer to prompt for product id and quantity
         start()
     });
+}
 
+function viewLowStock(){
+    
+    var query=connection.query("SELECT * FROM ?? where stock_quantity<5 ",['products'] ,function (err, res) {
+        if (err) throw err;
+        // Log all results of the SELECT statement
+        console.table(res);
+        console.log(query.url);
+        start()
+    });
 }
