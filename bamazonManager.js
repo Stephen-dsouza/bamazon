@@ -16,7 +16,7 @@ connection.connect(function (err) {
 
 //###START OF FUNCTIONS###
 //This function will prompt for the list of actions
-function start() {
+var start=function () {
     inquirer.prompt([{
             name: "action",
             type: "list",
@@ -27,13 +27,13 @@ function start() {
 
             switch (answer.action) {
                 case ("View Products for Sale"):
-                    viewAll();
+                    viewAll(start);
                     break;
                 case ("View Low Inventory"):
                     viewLowStock();
                     break;
                 case ("Add to Inventory"):
-                    addQuantity();
+                    viewAll(addQuantityprompt);
                     break;
                 case ("Add New Product"):
                     addProduct();
@@ -45,36 +45,29 @@ function start() {
         });
 }
 // This function is to select all and return back to start function
-function viewAll() {
+function viewAll(next) {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
         console.table(res);
         //Inquirer to prompt for product id and quantity
-        start()
+        next();
+        
     });
 }
 
-
+//function to view only quantity<5
 function viewLowStock() {
 
     var query = connection.query("SELECT * FROM ?? where stock_quantity<5 ", ['products'], function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
         console.table(res);
-        console.log(query.url);
         start()
     });
 }
 
-//This function selects all the items and then runs the function addQuantityprompt to promp for stock update
-function addQuantity() {
-    connection.query("SELECT * FROM products", function (err, res) {
-        if (err) throw err;
-        console.table(res);
-        addQuantityprompt();
-    });
-}
+//This runs the function addQuantityprompt to promp for stock update
 
 function addQuantityprompt() {
     inquirer.prompt([{
@@ -109,10 +102,6 @@ function addQuantityprompt() {
                 if (err) throw err;
                 updatedQuantity += res[0].stock_quantity;
                 updatedProduct = res[0].product_name;
-                console.log(query.url);
-                console.log(updatedProduct);
-                console.log(updatedQuantity);
-
                 connection.query("UPDATE products set ? where ?",
                     [{
                             stock_quantity: updatedQuantity
@@ -137,13 +126,11 @@ function addProduct(){
         name: "productName",
         type: "input",
         message: "\n Please enter the product name  ",
-        
     },
     {
             name: "productDepartment",
             type: "input",
             message: "\n Which department does the product belong to?  ",
-            
         },
         {
             name: "price",
