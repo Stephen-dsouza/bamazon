@@ -20,15 +20,16 @@ function start() {
       name: "action",
       type: "list",
       choices: ["Purchase Item", "Exit"],
-      message: "please select if you wish to purchase or exit",
+      message: "Please select if you wish to purchase a product or select [Exit] to Exit",
     }])
     .then(function (answer) {
 
       switch (answer.action) {
         case ("Purchase Item"):
-          customerPurchase();
+          viewAll();
           break;
         case ("Exit"):
+          console.log("\n\n\nThank you for shopping. Hope to see you again\n")
           connection.end();
       }
 
@@ -36,7 +37,7 @@ function start() {
 }
 
 // display the items in stock and prompt for selection
-function customerPurchase() {
+function viewAll() {
   connection.query("SELECT * FROM products", function (err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
@@ -51,7 +52,7 @@ function customerSelection() {
   inquirer.prompt([{
         name: "itemID",
         type: "input",
-        message: "\n Please enter the item ID of the product you wish to purchase",
+        message: "\n Please enter the item ID of the product you wish to purchase ",
         validate: function (value) {
           if (isNaN(value) === false) {
             return true;
