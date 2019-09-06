@@ -93,7 +93,7 @@ function customerSelection() {
             function (error) {
               if (error) throw error;
               var total = (answer.quantity * res[0].price);
-              console.log("Purchase successful!");
+              console.log("\n Purchase successful! \n\n The total cost of the product " +res[0].product_name +" is $ " +total +"\n\n");
               start()
             }
           );
