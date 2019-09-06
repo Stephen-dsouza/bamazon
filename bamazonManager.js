@@ -21,7 +21,7 @@ function start() {
             name: "action",
             type: "list",
             choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product", "Exit"],
-            message: "please select if you wish to purchase or exit",
+            message: "please select from the following options. Select[Exit] to exit",
         }])
         .then(function (answer) {
 
@@ -66,10 +66,11 @@ function viewLowStock() {
         start()
     });
 }
+
+//This function selects all the items and then runs the function addQuantityprompt to promp for stock update
 function addQuantity() {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
-        // Log all results of the SELECT statement
         console.table(res);
         addQuantityprompt();
     });
@@ -130,4 +131,60 @@ function addQuantityprompt() {
         });
 }
 
+
+function addProduct(){
+    inquirer.prompt([{
+        name: "productName",
+        type: "input",
+        message: "\n Please enter the product name  ",
+        
+    },
+    {
+            name: "productDepartment",
+            type: "input",
+            message: "\n Which department does the product belong to?  ",
+            
+        },
+        {
+            name: "price",
+            type: "input",
+            message: "\n Please enter the unit price",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        },
+    {
+        name: "quantity",
+        type: "input",
+        message: "\n Please enter the quantity",
+        validate: function (value) {
+            if (isNaN(value) === false) {
+                return true;
+            }
+            return false;
+        }
+    }
+])
+.then(function (answer) {
+    connection.query(
+        "INSERT INTO PRODUCTS SET?",
+        {
+            product_name:answer.productName,
+            department_name:answer.productDepartment,
+            price:answer.price,
+            stock_quantity:answer.quantity
+        },
+        function(err) {
+            if (err) throw err;
+            console.log("product added successfully!");
+            // re-prompt the user for if they want to bid or post
+            viewAll();
+          }
+        );
+});
+
+}
 
