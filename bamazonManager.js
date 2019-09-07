@@ -165,9 +165,9 @@ function addProduct(){
         },
         function(err) {
             if (err) throw err;
-            console.log("product added successfully!");
+            console.log("\n\nproduct added successfully!\n\n");
             // re-prompt the user for if they want to bid or post
-            viewAll();
+            start();
           }
         );
 });

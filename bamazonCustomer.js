@@ -38,7 +38,7 @@ function start() {
 
 // display the items in stock and prompt for selection
 function viewAll() {
-  var columns = ["item_id","product_name","department_name", "stock_quantity", "price","product_sales"];
+  var columns = ["item_id","product_name","department_name", "stock_quantity", "price"];
   connection.query("SELECT ?? FROM products",[columns], function (err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement

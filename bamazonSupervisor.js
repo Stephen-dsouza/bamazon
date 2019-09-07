@@ -25,11 +25,10 @@ var start=function () {
         .then(function (answer) {
 
             switch (answer.action) {
-                case ("View Products for Department"):
-                    viewAll(start);
+                case ("View Product Sales by Department"):
+                    viewAll();
                     break;
-                case ("View Low Create"):
-                    viewLowStock();
+                    case ("Create New Department"):
                     break;
                 case ("Exit"):
                     connection.end();
@@ -38,13 +37,17 @@ var start=function () {
         });
 }
 // This function is to select all and return back to start function
-function viewAll(next) {
-    connection.query("SELECT * FROM products", function (err, res) {
+function viewAll() {
+    var URL="select d.department_id,d.department_name,d.over_head_costs,sum(p.product_sales)as product_sales,d.over_head_costs-p.product_sales as total_profit ";
+    URL+="from departments d ,products p ";
+    URL+="where d.department_name=p.department_name Group by p.department_name";
+
+    console.log(URL);
+    connection.query(URL, function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
         console.table(res);
-        //Inquirer to prompt for product id and quantity
-        next();
+        start();
         
     });
 }
