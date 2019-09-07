@@ -38,7 +38,8 @@ function start() {
 
 // display the items in stock and prompt for selection
 function viewAll() {
-  connection.query("SELECT * FROM products", function (err, res) {
+  var columns = ["item_id","product_name","department_name", "stock_quantity", "price","product_sales"];
+  connection.query("SELECT ?? FROM products",[columns], function (err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.table(res);
@@ -74,7 +75,7 @@ function customerSelection() {
     ])
     .then(function (answer) {
       var ID = answer.itemID;
-      var columns = ["product_name", "stock_quantity", "price"];
+      var columns = ["product_name", "stock_quantity", "price","product_sales"];
       connection.query("SELECT ?? FROM products where item_id=?", [columns, ID], function (err, res) {
         if (err) throw err;
         if (answer.quantity > res[0].stock_quantity) {
@@ -82,18 +83,23 @@ function customerSelection() {
           start();
 
         } else {
+          var total = res[0].product_sales+(answer.quantity * res[0].price);
+          
+          console.log(total);
           var remaningStock = res[0].stock_quantity - answer.quantity
           connection.query("UPDATE products set ? where ?",
             [{
-                stock_quantity: remaningStock
+                stock_quantity: remaningStock,
+                product_sales: total
               },
               {
                 item_id: answer.itemID
-              }
+              },
+              
             ],
             function (error) {
               if (error) throw error;
-              var total = (answer.quantity * res[0].price);
+              
               console.log("\n Purchase successful! \n\n The total cost of the product " +res[0].product_name +" is $ " +total +"\n\n");
               start()
             }
