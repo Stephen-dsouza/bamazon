@@ -14,5 +14,9 @@ values("Fresh Melon Honeydew","Fruit and Veg",2.30,50),
 INSERT into departments(department_name,over_head_costs)
 VALUES("Fruit and Veg",10000),
 ("Soft Drinks",6000),
-("Liquor",8000)
+("Liquor",8000),
+("Healthy Foods",45000),
+("Yeast & Baking Ingredients",1000)
+
+
 
