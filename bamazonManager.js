@@ -68,7 +68,6 @@ function viewLowStock() {
 }
 
 //This runs the function addQuantityprompt to promp for stock update
-
 function addQuantityprompt() {
     inquirer.prompt([{
                 name: "itemID",
@@ -120,7 +119,7 @@ function addQuantityprompt() {
         });
 }
 
-
+//function to add new product
 function addProduct(){
     inquirer.prompt([{
         name: "productName",
