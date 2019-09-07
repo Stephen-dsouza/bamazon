@@ -12,21 +12,25 @@ T
  ## **bamazonCustomer**
  The app should then prompt users with two messages.
 
+<<<<<<< HEAD
 ![bamzonCutomer](./images/bamazonCustomer_Prompt.jpg)
+=======
+![bamzonCustomer](./images/bamazonCustomer_Prompt.PNG)
+>>>>>>> 18005a92cdf86c0e086b419f716738d2e4f876ab
 
    * The first will ask them the ID of the product they would like to buy.
    * The second message will prompt for quantity of the product.
     
  Once the customer has placed the order, The application will check if your store has enough of the product to meet the customer's request.
 
-![bamzonCutomer](./images/bamazonCustomer_1.PNG)
+![bamzonCustomer](./images/bamazonCustomer_1.PNG)
 
      Once the update goes through, The customer will see the total cost of their purchase.
 
    * If not, the app will output  `Insufficient quantity available.We currently have "selected item stock " available`, and then prevent the order from going through.
 
     However, if the store _does_ have enough of the product, the app will fulfill the customer's order.
-![bamzonCutomer](./images/bamazonCustomer_2.PNG)
+![bamzonCustomer](./images/bamazonCustomer_2.PNG)
    
  ## **bamazonManager**
  ![bamzonManager](./images/bamazonManager_Prompt.PNG)
