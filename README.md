@@ -12,11 +12,9 @@ T
  ## **bamazonCustomer**
  The app should then prompt users with two messages.
 
-<<<<<<< HEAD
+
 ![bamzonCutomer](./images/bamazonCustomer_Prompt.jpg)
-=======
-![bamzonCustomer](./images/bamazonCustomer_Prompt.PNG)
->>>>>>> 18005a92cdf86c0e086b419f716738d2e4f876ab
+
 
    * The first will ask them the ID of the product they would like to buy.
    * The second message will prompt for quantity of the product.
