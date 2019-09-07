@@ -1,6 +1,6 @@
 # bamazon
 * An Amazon-like storefront. The app will take in orders from customers and deplete stock from the store's inventory.
-T
+
 ## HOW TO USE
 * Create the database schema using "schema.sql"
 * Add the data using data from"data.sql".
