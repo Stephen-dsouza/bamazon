@@ -20,7 +20,7 @@ function start() {
       name: "action",
       type: "list",
       choices: ["Purchase Item", "Exit"],
-      message: "Please select if you wish to purchase a product or select [Exit] to Exit",
+      message: "Please select if you wish to purchase a product or select [Exit] to Exit\n\n",
     }])
     .then(function (answer) {
 
