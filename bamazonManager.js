@@ -46,7 +46,7 @@ var start=function () {
 }
 // This function is to select all and return back to start function
 function viewAll(next) {
-    connection.query("SELECT * FROM products", function (err, res) {
+    connection.query("SELECT * FROM products;", function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
         console.table(res);
@@ -59,7 +59,7 @@ function viewAll(next) {
 //function to view only quantity<5
 function viewLowStock() {
 
-    var query = connection.query("SELECT * FROM ?? where stock_quantity<5 ", ['products'], function (err, res) {
+    var query = connection.query("SELECT * FROM ?? where stock_quantity<5; ", ['products'], function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
         console.table(res);
@@ -97,7 +97,7 @@ function addQuantityprompt() {
             var updatedQuantity = parseFloat(answer.quantity);
             var updatedProduct;
             var columns = ["product_name", "stock_quantity"];
-            var query = connection.query("SELECT ?? FROM products where item_id=?", [columns, updatedID], function (err, res) {
+            var query = connection.query("SELECT ?? FROM products where item_id=?;", [columns, updatedID], function (err, res) {
                 if (err) throw err;
                 updatedQuantity += res[0].stock_quantity;
                 updatedProduct = res[0].product_name;
@@ -156,7 +156,7 @@ function addProduct(){
 ])
 .then(function (answer) {
     connection.query(
-        "INSERT INTO PRODUCTS SET?",
+        "INSERT INTO PRODUCTS SET?;",
         {
             product_name:answer.productName,
             department_name:answer.productDepartment,
